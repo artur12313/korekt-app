@@ -1,0 +1,56 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+* {
+  font-family: "Lato", Arial, sans-serif !important;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+div {
+  > .spinner {
+    border: .3rem solid transparent;
+    margin: auto;
+    display: block;
+    border-left-color: #145b68;
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    animation: rodar .5s linear infinite;
+    margin-bottom: 5px;
+  }
+  > .loading-text {
+    font-size: 16pt;
+  }
+}
+
+.link-reset {
+  text-transform: none !important;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.icon-16 {
+  width: 16px;
+  height: 16px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@keyframes rodar {
+  to {
+    transform: rotate(360deg);
+  }
+}

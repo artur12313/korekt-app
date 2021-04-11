@@ -1,0 +1,66 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Klient extends Model
+{
+    use SoftDeletes;
+    
+    protected $fillable = [
+        'nazwa', 'adres', 'miejscowosc', 'tel', 'author_id', 'dotyczy', 'zakres'
+    ];
+
+    protected $appends = ['razem_wartosc_sprzedazy', 'razem_wartosc_zakupu', 'razem_robocizna'];
+
+    protected $table = 'klienci';
+
+    public function author()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function zamowienia()
+    {
+        return $this->hasMany('App\Zamowienie', 'client_id');
+    }
+
+    public function getRazemWartoscSprzedazyAttribute()
+    {
+        $razemWartoscSprzedazy = 0;
+        foreach($this->zamowienia as $zamowienie) {
+            $razemWartoscSprzedazy += $zamowienie->suma_wartosc_sprzedazy;
+        }
+        return $razemWartoscSprzedazy;
+    }
+
+    public function getRazemWartoscZakupuAttribute()
+    {
+        $razemWartoscZakupu = 0;
+        foreach($this->zamowienia as $zamowienie) {
+            $razemWartoscZakupu += $zamowienie->suma_wartosc_zakupu;
+        }
+        return $razemWartoscZakupu;
+    }
+
+    public function getRazemWartoscSprzedazyBruttoAttribute()
+    {
+        $razemWartoscSprzedazyBrutto = 0;
+        foreach($this->zamowienia as $zamowienie) {
+            $razemWartoscSprzedazyBrutto += $zamowienie->suma_wartosc_sprzedazy_brutto;
+        }
+        return $razemWartoscSprzedazyBrutto;
+    }
+
+    public function getRazemRobociznaAttribute()
+    {
+        $razem_robocizna = 0;
+        foreach($this->zamowienia as $zamowienie)
+        {
+            $razem_robocizna += $zamowienie->labor;
+        }
+        return $razem_robocizna;
+    }
+}
